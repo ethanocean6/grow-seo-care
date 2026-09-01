@@ -149,6 +149,8 @@ function RootComponent() {
         </main>
         <Footer />
       </div>
+      <ChatbotWidget />
+      <Toaster />
     </QueryClientProvider>
   );
 }
