@@ -160,6 +160,42 @@
   font-weight: 600;
 }
 
+.chat-markdown > :first-child {
+  margin-top: 0;
+}
+.chat-markdown > :last-child {
+  margin-bottom: 0;
+}
+.chat-markdown p {
+  margin-block: 0.5rem;
+}
+.chat-markdown ul,
+.chat-markdown ol {
+  margin-block: 0.5rem;
+  padding-inline-start: 1.1rem;
+  list-style: disc;
+}
+.chat-markdown ol {
+  list-style: decimal;
+}
+.chat-markdown li {
+  margin-block: 0.15rem;
+}
+.chat-markdown strong {
+  font-weight: 700;
+  color: var(--color-navy);
+}
+.chat-markdown a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+.chat-markdown code {
+  background-color: var(--color-brand-soft);
+  border-radius: 0.35rem;
+  padding: 0.05rem 0.3rem;
+  font-size: 0.85em;
+}
+
 @keyframes rise-in {
   from {
     opacity: 0;
