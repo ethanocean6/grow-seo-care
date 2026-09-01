@@ -29,7 +29,7 @@ export const Route = createFileRoute("/seo-services")({
     ],
     links: [{ rel: "canonical", href: "/seo-services" }],
   }),
-  component: SeoServices;
+  component: SeoServices,
 });
 
 const steps = [
