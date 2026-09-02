@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDown, Check, Minus } from "lucide-react";
 
@@ -316,8 +317,8 @@ function Pricing() {
               </thead>
               <tbody>
                 {comparisonGroups.map((group) => (
-                  <>
-                    <tr key={group.category}>
+                  <Fragment key={group.category}>
+                    <tr>
                       <td
                         colSpan={5}
                         className="border-t border-border bg-brand-soft/60 px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-primary"
@@ -337,7 +338,7 @@ function Pricing() {
                         ))}
                       </tr>
                     ))}
-                  </>
+                  </Fragment>
                 ))}
               </tbody>
             </table>
