@@ -1,8 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { Award, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { useState, type FormEvent } from "react";
+import { toast } from "sonner";
 
 import { PageHero } from "@/components/site/Bits";
+import { submitContactInquiry } from "@/lib/contact.functions";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -26,11 +29,21 @@ export const Route = createFileRoute("/contact")({
   component: Contact,
 });
 
+const contact = {
+  phone: "01979283685",
+  phoneHref: "tel:01979283685",
+  email: "khairulislambasher780@gmail.com",
+  emailHref: "mailto:khairulislambasher780@gmail.com",
+  whatsapp: "+8801979283685",
+  whatsappHref: "https://wa.me/8801979283685",
+  address: "Mujgunni Residential Area, Khulna",
+} as const;
+
 const details = [
-  { icon: Phone, label: "Phone", value: "[Add phone number]" },
-  { icon: Mail, label: "Email", value: "[Add email address]" },
-  { icon: MapPin, label: "Office Address", value: "[Add office address]" },
-  { icon: MessageCircle, label: "WhatsApp", value: "[Add WhatsApp number]" },
+  { icon: Phone, label: "Phone", value: contact.phone, href: contact.phoneHref },
+  { icon: Mail, label: "Email", value: contact.email, href: contact.emailHref },
+  { icon: MapPin, label: "Office Address", value: contact.address },
+  { icon: MessageCircle, label: "WhatsApp", value: contact.whatsapp, href: contact.whatsappHref, external: true },
 ];
 
 const fieldClass =
@@ -38,10 +51,39 @@ const fieldClass =
 
 function Contact() {
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const submit = useServerFn(submitContactInquiry);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (sent) return;
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    setSubmitting(true);
+    const result = await submit({
+      data: {
+        name: String(formData.get("name") ?? ""),
+        email: String(formData.get("email") ?? ""),
+        phone: String(formData.get("phone") ?? ""),
+        company: String(formData.get("company") ?? ""),
+        service: String(formData.get("service") ?? ""),
+        budget: String(formData.get("budget") ?? ""),
+        message: String(formData.get("message") ?? ""),
+        source_page: typeof window !== "undefined" ? window.location.pathname : null,
+      },
+    });
+    setSubmitting(false);
+
+    if (!result.ok) {
+      toast.error(result.error);
+      return;
+    }
+
     setSent(true);
+    form.reset();
+    toast.success("Thank you — your inquiry has been sent. We'll be in touch shortly.");
   }
 
   return (
@@ -95,9 +137,10 @@ function Contact() {
               <div className="sm:col-span-2">
                 <button
                   type="submit"
-                  className="inline-flex w-full items-center justify-center rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-cta)] transition-transform hover:-translate-y-0.5 sm:w-auto"
+                  disabled={submitting || sent}
+                  className="inline-flex w-full items-center justify-center rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-cta)] transition-transform hover:-translate-y-0.5 disabled:opacity-60 sm:w-auto"
                 >
-                  Send Inquiry
+                  {submitting ? "Sending..." : sent ? "Sent" : "Send Inquiry"}
                 </button>
                 {sent ? (
                   <p className="mt-4 rounded-xl bg-brand-soft px-4 py-3 text-sm text-primary">
@@ -130,7 +173,18 @@ function Contact() {
                     </span>
                     <span>
                       <span className="block text-sm font-semibold text-navy">{d.label}</span>
-                      <span className="block text-sm text-muted-foreground">{d.value}</span>
+                      {d.href ? (
+                        <a
+                          href={d.href}
+                          target={d.external ? "_blank" : undefined}
+                          rel={d.external ? "noreferrer" : undefined}
+                          className="block text-sm text-muted-foreground hover:text-primary hover:underline"
+                        >
+                          {d.value}
+                        </a>
+                      ) : (
+                        <span className="block text-sm text-muted-foreground">{d.value}</span>
+                      )}
                     </span>
                   </li>
                 ))}

@@ -18,6 +18,16 @@ const services = [
   { label: "Website Design", to: "/pricing" },
 ] as const;
 
+const contact = {
+  phone: "01979283685",
+  phoneHref: "tel:01979283685",
+  email: "khairulislambasher780@gmail.com",
+  emailHref: "mailto:khairulislambasher780@gmail.com",
+  whatsapp: "+8801979283685",
+  whatsappHref: "https://wa.me/8801979283685",
+  address: "Mujgunni Residential Area, Khulna",
+} as const;
+
 export function Footer() {
   return (
     <footer className="bg-navy text-navy-foreground">
@@ -81,10 +91,30 @@ export function Footer() {
         <div>
           <h3 className="text-sm font-semibold text-navy-foreground">Get in touch</h3>
           <ul className="mt-4 space-y-2.5 text-sm text-navy-foreground/70">
-            <li>Phone: [Add phone number]</li>
-            <li>Email: [Add email address]</li>
-            <li>WhatsApp: [Add WhatsApp number]</li>
-            <li>Office: [Add office address]</li>
+            <li>
+              Phone:{" "}
+              <a href={contact.phoneHref} className="hover:text-primary-foreground hover:underline">
+                {contact.phone}
+              </a>
+            </li>
+            <li>
+              Email:{" "}
+              <a href={contact.emailHref} className="hover:text-primary-foreground hover:underline">
+                {contact.email}
+              </a>
+            </li>
+            <li>
+              WhatsApp:{" "}
+              <a
+                href={contact.whatsappHref}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-primary-foreground hover:underline"
+              >
+                {contact.whatsapp}
+              </a>
+            </li>
+            <li>Office: {contact.address}</li>
           </ul>
           <Link
             to="/contact"
