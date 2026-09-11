@@ -62,28 +62,34 @@ function Contact() {
     const formData = new FormData(form);
 
     setSubmitting(true);
-    const result = await submit({
-      data: {
-        name: String(formData.get("name") ?? ""),
-        email: String(formData.get("email") ?? ""),
-        phone: String(formData.get("phone") ?? ""),
-        company: String(formData.get("company") ?? ""),
-        service: String(formData.get("service") ?? ""),
-        budget: String(formData.get("budget") ?? ""),
-        message: String(formData.get("message") ?? ""),
-        source_page: typeof window !== "undefined" ? window.location.pathname : null,
-      },
-    });
+    let result: { ok: boolean; error?: string };
+    try {
+      result = await submit({
+        data: {
+          name: String(formData.get("name") ?? ""),
+          email: String(formData.get("email") ?? ""),
+          phone: String(formData.get("phone") ?? ""),
+          company: String(formData.get("company") ?? ""),
+          service: String(formData.get("service") ?? ""),
+          budget: String(formData.get("budget") ?? ""),
+          message: String(formData.get("message") ?? ""),
+          website: String(formData.get("website") ?? ""),
+          source_page: typeof window !== "undefined" ? window.location.pathname : null,
+        },
+      });
+    } catch {
+      result = { ok: false, error: "We couldn't send your inquiry right now. Please try again." };
+    }
     setSubmitting(false);
 
     if (!result.ok) {
-      toast.error(result.error);
+      toast.error(result.error ?? "We couldn't send your inquiry right now. Please try again.");
       return;
     }
 
     setSent(true);
     form.reset();
-    toast.success("Thank you — your inquiry has been sent. We'll be in touch shortly.");
+    toast.success("Thank You! Your inquiry has been sent successfully.");
   }
 
   return (
@@ -109,7 +115,7 @@ function Contact() {
               </div>
               <div>
                 <label htmlFor="phone" className="mb-1.5 block text-sm font-medium">Phone Number</label>
-                <input id="phone" name="phone" type="tel" className={fieldClass} placeholder="Your phone number" />
+                <input id="phone" name="phone" type="tel" required className={fieldClass} placeholder="Your phone number" />
               </div>
               <div>
                 <label htmlFor="company" className="mb-1.5 block text-sm font-medium">Company Name</label>
@@ -117,7 +123,7 @@ function Contact() {
               </div>
               <div>
                 <label htmlFor="service" className="mb-1.5 block text-sm font-medium">Select Service</label>
-                <select id="service" name="service" className={fieldClass} defaultValue="">
+                <select id="service" name="service" required className={fieldClass} defaultValue="">
                   <option value="" disabled>Choose a service</option>
                   <option>SEO Services</option>
                   <option>Website Ranking</option>
@@ -132,7 +138,11 @@ function Contact() {
               </div>
               <div className="sm:col-span-2">
                 <label htmlFor="message" className="mb-1.5 block text-sm font-medium">Message</label>
-                <textarea id="message" name="message" rows={5} className={fieldClass} placeholder="Tell us about your project and goals" />
+                <textarea id="message" name="message" rows={5} required minLength={10} maxLength={4000} className={fieldClass} placeholder="Tell us about your project and goals" />
+              </div>
+              <div aria-hidden="true" className="hidden">
+                <label htmlFor="website">Website</label>
+                <input id="website" name="website" tabIndex={-1} autoComplete="off" />
               </div>
               <div className="sm:col-span-2">
                 <button
@@ -144,7 +154,8 @@ function Contact() {
                 </button>
                 {sent ? (
                   <p className="mt-4 rounded-xl bg-brand-soft px-4 py-3 text-sm text-primary">
-                    Thank you — your inquiry has been recorded. We'll be in touch shortly.
+                    <strong className="block">Thank You! Your inquiry has been sent successfully.</strong>
+                    Our team has received your project details and will get back to you soon.
                   </p>
                 ) : null}
               </div>
