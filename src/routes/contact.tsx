@@ -62,28 +62,34 @@ function Contact() {
     const formData = new FormData(form);
 
     setSubmitting(true);
-    const result = await submit({
-      data: {
-        name: String(formData.get("name") ?? ""),
-        email: String(formData.get("email") ?? ""),
-        phone: String(formData.get("phone") ?? ""),
-        company: String(formData.get("company") ?? ""),
-        service: String(formData.get("service") ?? ""),
-        budget: String(formData.get("budget") ?? ""),
-        message: String(formData.get("message") ?? ""),
-        source_page: typeof window !== "undefined" ? window.location.pathname : null,
-      },
-    });
+    let result: { ok: boolean; error?: string };
+    try {
+      result = await submit({
+        data: {
+          name: String(formData.get("name") ?? ""),
+          email: String(formData.get("email") ?? ""),
+          phone: String(formData.get("phone") ?? ""),
+          company: String(formData.get("company") ?? ""),
+          service: String(formData.get("service") ?? ""),
+          budget: String(formData.get("budget") ?? ""),
+          message: String(formData.get("message") ?? ""),
+          website: String(formData.get("website") ?? ""),
+          source_page: typeof window !== "undefined" ? window.location.pathname : null,
+        },
+      });
+    } catch {
+      result = { ok: false, error: "We couldn't send your inquiry right now. Please try again." };
+    }
     setSubmitting(false);
 
     if (!result.ok) {
-      toast.error(result.error);
+      toast.error(result.error ?? "We couldn't send your inquiry right now. Please try again.");
       return;
     }
 
     setSent(true);
     form.reset();
-    toast.success("Thank you — your inquiry has been sent. We'll be in touch shortly.");
+    toast.success("Thank You! Your inquiry has been sent successfully.");
   }
 
   return (
