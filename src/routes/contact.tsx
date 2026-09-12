@@ -36,13 +36,19 @@ const contact = {
   emailHref: "mailto:khairulislambasher780@gmail.com",
   whatsapp: "+8801979283685",
   whatsappHref: "https://wa.me/8801979283685",
-  address: "Mujgunni Residential Area, Khulna",
+  address: "Mugganjit Residential Area, Khulna",
+  addressQuery: "Mugganjit Residential Area, Khulna, Bangladesh",
 } as const;
 
 const details = [
   { icon: Phone, label: "Phone", value: contact.phone, href: contact.phoneHref },
   { icon: Mail, label: "Email", value: contact.email, href: contact.emailHref },
-  { icon: MapPin, label: "Office Address", value: contact.address },
+  {
+    icon: MapPin,
+    label: "Office Address",
+    value: contact.address,
+    mapLink: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.addressQuery)}`,
+  },
   { icon: MessageCircle, label: "WhatsApp", value: contact.whatsapp, href: contact.whatsappHref, external: true },
 ];
 
@@ -174,32 +180,64 @@ function Contact() {
                 One team for search visibility, ranking strategy and the website behind it.
               </p>
             </div>
-            <div className="card-soft p-7">
-              <h2 className="text-lg">Contact Details</h2>
-              <ul className="mt-5 space-y-4">
-                {details.map((d) => (
-                  <li key={d.label} className="flex items-start gap-3">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-primary">
-                      <d.icon className="h-4 w-4" aria-hidden="true" />
-                    </span>
-                    <span>
-                      <span className="block text-sm font-semibold text-navy">{d.label}</span>
-                      {d.href ? (
-                        <a
-                          href={d.href}
-                          target={d.external ? "_blank" : undefined}
-                          rel={d.external ? "noreferrer" : undefined}
-                          className="block text-sm text-muted-foreground hover:text-primary hover:underline"
-                        >
-                          {d.value}
-                        </a>
-                      ) : (
-                        <span className="block text-sm text-muted-foreground">{d.value}</span>
-                      )}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div className="card-soft p-7">
+                <h2 className="text-lg">Contact Details</h2>
+                <ul className="mt-5 space-y-4">
+                  {details.map((d) => (
+                    <li key={d.label} className="flex items-start gap-3">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-primary">
+                        <d.icon className="h-4 w-4" aria-hidden="true" />
+                      </span>
+                      <span>
+                        <span className="block text-sm font-semibold text-navy">{d.label}</span>
+                        {d.href ? (
+                          <a
+                            href={d.href}
+                            target={d.external ? "_blank" : undefined}
+                            rel={d.external ? "noreferrer" : undefined}
+                            className="block text-sm text-muted-foreground hover:text-primary hover:underline"
+                          >
+                            {d.value}
+                          </a>
+                        ) : (
+                          <span className="block text-sm text-muted-foreground">{d.value}</span>
+                        )}
+                        {d.mapLink ? (
+                          <a
+                            href={d.mapLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-primary/80 hover:underline"
+                          >
+                            View on Google Maps <span aria-hidden="true">→</span>
+                          </a>
+                        ) : null}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="card-soft overflow-hidden border-primary/20 p-0 shadow-[var(--shadow-card)]">
+                <div className="relative h-[320px] w-full lg:h-[380px]">
+                  <iframe
+                    title="Office location map"
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(contact.addressQuery)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                    className="absolute inset-0 h-full w-full border-0"
+                    loading="lazy"
+                    allowFullScreen
+                  />
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.addressQuery)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute bottom-3 right-3 inline-flex items-center gap-1 rounded-lg bg-white/95 px-3 py-2 text-xs font-semibold text-navy shadow-md transition-colors hover:bg-primary hover:text-primary-foreground"
+                  >
+                    Open in Google Maps <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </aside>
         </div>
