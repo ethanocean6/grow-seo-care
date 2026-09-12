@@ -223,7 +223,7 @@ function Contact() {
                 <div className="relative h-[320px] w-full lg:h-[380px]">
                   <iframe
                     title="Office location map"
-                    src={`https://maps.google.com/maps?q=${encodeURIComponent(contact.addressQuery)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                    src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env['VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY']}&q=${encodeURIComponent(contact.addressQuery)}`}
                     className="absolute inset-0 h-full w-full border-0"
                     loading="lazy"
                     allowFullScreen
