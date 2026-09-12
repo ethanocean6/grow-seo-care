@@ -36,7 +36,8 @@ const contact = {
   emailHref: "mailto:khairulislambasher780@gmail.com",
   whatsapp: "+8801979283685",
   whatsappHref: "https://wa.me/8801979283685",
-  address: "Mujgunni Residential Area, Khulna",
+  address: "Mugganjit Residential Area, Khulna",
+  addressQuery: "Mugganjit Residential Area, Khulna, Bangladesh",
 } as const;
 
 const details = [
