@@ -43,7 +43,12 @@ const contact = {
 const details = [
   { icon: Phone, label: "Phone", value: contact.phone, href: contact.phoneHref },
   { icon: Mail, label: "Email", value: contact.email, href: contact.emailHref },
-  { icon: MapPin, label: "Office Address", value: contact.address },
+  {
+    icon: MapPin,
+    label: "Office Address",
+    value: contact.address,
+    mapLink: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.addressQuery)}`,
+  },
   { icon: MessageCircle, label: "WhatsApp", value: contact.whatsapp, href: contact.whatsappHref, external: true },
 ];
 
