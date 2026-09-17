@@ -180,7 +180,6 @@ function Contact() {
                 One team for search visibility, ranking strategy and the website behind it.
               </p>
             </div>
-            <div className="grid gap-6 lg:grid-cols-2">
               <div className="card-soft p-7">
                 <h2 className="text-lg">Contact Details</h2>
                 <ul className="mt-5 space-y-4">
@@ -218,27 +217,6 @@ function Contact() {
                   ))}
                 </ul>
               </div>
-
-              <div className="card-soft overflow-hidden border-primary/20 p-0 shadow-[var(--shadow-card)]">
-                <div className="relative h-[320px] w-full lg:h-[380px]">
-                  <iframe
-                    title="Office location map"
-                    src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env['VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY']}&q=${encodeURIComponent(contact.addressQuery)}`}
-                    className="absolute inset-0 h-full w-full border-0"
-                    loading="lazy"
-                    allowFullScreen
-                  />
-                  <a
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.addressQuery)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute bottom-3 right-3 inline-flex items-center gap-1 rounded-lg bg-white/95 px-3 py-2 text-xs font-semibold text-navy shadow-md transition-colors hover:bg-primary hover:text-primary-foreground"
-                  >
-                    Open in Google Maps <span aria-hidden="true">↗</span>
-                  </a>
-                </div>
-              </div>
-            </div>
           </aside>
         </div>
       </section>
