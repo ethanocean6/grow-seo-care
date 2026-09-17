@@ -1,43 +1,33 @@
 import type { PortfolioProject } from "@/data/portfolioProjects";
 
-import localService from "@/assets/portfolio/local-service.png.asset.json";
-import manufacturing from "@/assets/portfolio/manufacturing.png.asset.json";
-import professional from "@/assets/portfolio/professional.png.asset.json";
-import ecommerce from "@/assets/portfolio/ecommerce.png.asset.json";
-import restaurant from "@/assets/portfolio/restaurant.jpg.asset.json";
-import saas from "@/assets/portfolio/saas.png.asset.json";
-import realestate from "@/assets/portfolio/realestate.png.asset.json";
-import healthcare from "@/assets/portfolio/healthcare.png.asset.json";
-import transformation from "@/assets/portfolio/transformation.png.asset.json";
-
 type Variant = PortfolioProject["thumbnail"];
 
 const images: Record<Variant, { src: string; alt: string }> = {
-  service: { src: localService.url, alt: "Local Service Company Website sample project preview" },
+  service: { src: "/portfolio/local-service-company.png", alt: "Local Service Company Website sample project preview" },
   manufacturing: {
-    src: manufacturing.url,
+    src: "/portfolio/b2b-manufacturer.png",
     alt: "B2B Manufacturer SEO Program sample project preview",
   },
   corporate: {
-    src: professional.url,
+    src: "/portfolio/professional-firm.png",
     alt: "Professional Firm Ranking Project sample project preview",
   },
-  ecommerce: { src: ecommerce.url, alt: "Ecommerce Store SEO & Redesign sample project preview" },
+  ecommerce: { src: "/portfolio/ecommerce-redesign.png", alt: "Ecommerce Store SEO & Redesign sample project preview" },
   restaurant: {
-    src: restaurant.url,
+    src: "/portfolio/restaurant-growth.png",
     alt: "Local Restaurant Growth Website sample project preview",
   },
-  saas: { src: saas.url, alt: "SaaS Website SEO Strategy sample project preview" },
+  saas: { src: "/portfolio/saas-seo-strategy.png", alt: "SaaS Website SEO Strategy sample project preview" },
   realestate: {
-    src: realestate.url,
+    src: "/portfolio/real-estate-optimization.png",
     alt: "Real Estate Website Optimization sample project preview",
   },
   healthcare: {
-    src: healthcare.url,
+    src: "/portfolio/healthcare-seo.png",
     alt: "Healthcare Website SEO Foundation sample project preview",
   },
   transformation: {
-    src: transformation.url,
+    src: "/portfolio/business-website-transformation.png",
     alt: "Business Website Transformation concept project preview",
   },
 };
